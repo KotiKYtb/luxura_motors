@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-bg-animated" aria-hidden="true"></div>
+    <div class="hero-bg-glow" aria-hidden="true"></div>
+    <div class="hero-content">
+      <h1 class="hero-title hero-title-single">
+        <span class="hero-line1">leader en france dans la vente de voitures d'exception</span>
+      </h1>
+      <div class="hero-cta hero-cta-initial">
+        <a href="{% url 'vehicule_list' %}" class="btn btn-primary btn-shine">Voir notre collection</a>
+      </div>
+    </div>
+    <noscript>
+      <style>.hero-line1,.hero-cta-initial{opacity:1!important;transform:none!important}</style>
+    </noscript>
+    <div class="hero-scroll" aria-hidden="true">
+      <span class="hero-scroll-line"></span>
+      <span>Découvrir</span>
+    </div>
+  </section>
+
+  <section class="section" id="vedettes">
+    <div class="section-header">
+      <h2 class="section-title"><span class="section-title-wrap gsap-reveal">Les dernières nouveautés</span></h2>
+    </div>
+    <div class="vehicules-grid">
+      {% for v in vedettes %}
+        <article class="vehicule-card card-reveal">
+          <a href="{% url 'vehicule_detail' v.pk %}" class="vehicule-card-link">
+            <div class="card-image-wrap">
+              {% if v.image_principale %}
+                <img src="{{ v.image_principale.url }}" alt="{{ v.titre }}" loading="lazy">
+              {% elif v.image_url %}
+                <img src="{{ v.image_url }}" alt="{{ v.titre }}" loading="lazy">
+              {% else %}
+                <img src="https://placehold.co/600x375/1c1c1c/c38c37?text={{ v.modele|urlencode }}" alt="{{ v.titre }}" loading="lazy">
+              {% endif %}
+              <span class="card-badge">{{ v.get_marque_display }}</span>
+              <div class="card-specs-overlay">
+                <div class="card-specs-overlay-inner">
+                  <p class="card-specs-line-overlay">{{ v.annee }} · {{ v.kilometrage|floatformat:0 }} km{% if v.puissance_ch %} · {{ v.puissance_ch }} ch{% endif %}</p>
+                  <p class="card-specs-price-overlay">{{ v.prix|floatformat:0 }} €</p>
+                  <span class="card-specs-cta">Découvrir</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">{{ v.titre }}</h3>
+              <p class="card-marque">{{ v.get_marque_display }}</p>
+              <p class="card-specs-line">{{ v.annee }} · {{ v.kilometrage|floatformat:0 }} km · <strong>{{ v.prix|floatformat:0 }} €</strong></p>
+              <span class="card-cta">Découvrir</span>
+            </div>
+          </a>
+        </article>
+      {% empty %}
+        <p class="text-center" style="grid-column: 1/-1; color: var(--text-muted);">
+          Aucun véhicule en vedette pour le moment. <a href="{% url 'vehicule_list' %}">Voir tous les véhicules</a>.
+        </p>
+      {% endfor %}
+    </div>
+    {% if vedettes %}
+      <p class="text-center mt-2">
+        <a href="{% url 'vehicule_list' %}" class="btn btn-outline btn-shine">Voir tous nos véhicules</a>
+      </p>
+    {% endif %}
+  </section>
+{% endblock %}

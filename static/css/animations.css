@@ -1,0 +1,346 @@
+/* Luxura Motors - Animations & effets */
+
+/* ========== Keyframes ========== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Gradient animé (fond) */
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Lueur pulsée */
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(195, 140, 55, 0.25), 0 0 40px rgba(195, 140, 55, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(195, 140, 55, 0.4), 0 0 60px rgba(195, 140, 55, 0.15);
+  }
+}
+
+/* Shine / reflet qui traverse */
+@keyframes shine {
+  0% { transform: translateX(-100%) skewX(-15deg); }
+  100% { transform: translateX(200%) skewX(-15deg); }
+}
+
+/* Float léger */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Ligne qui s'étend */
+@keyframes lineExpand {
+  from { transform: scaleX(0); transform-origin: left; }
+  to { transform: scaleX(1); transform-origin: left; }
+}
+
+/* Texte dégradé animé */
+@keyframes gradientText {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Scale au hover */
+@keyframes hoverScale {
+  to { transform: scale(1.02); }
+}
+
+/* Border glow */
+@keyframes borderGlow {
+  0%, 100% { border-color: rgba(195, 140, 55, 0.3); box-shadow: 0 0 0 1px rgba(195, 140, 55, 0.2); }
+  50% { border-color: rgba(195, 140, 55, 0.6); box-shadow: 0 0 20px rgba(195, 140, 55, 0.15); }
+}
+
+/* ========== Hero background animé ========== */
+.hero-bg-animated {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(
+    135deg,
+    #0e2f28 0%,
+    #153d33 25%,
+    #0e2f28 50%,
+    #0a2520 75%,
+    #0e2f28 100%
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 12s ease infinite;
+}
+
+.hero-bg-glow {
+  position: absolute;
+  width: 80%;
+  height: 60%;
+  top: 30%;
+  left: 10%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(195, 140, 55, 0.08) 0%,
+    rgba(195, 140, 55, 0.02) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+  animation: float 8s ease-in-out infinite;
+}
+
+/* ========== Boutons avec shine ========== */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
+  transform: translateX(-100%) skewX(-15deg);
+  transition: transform 0.6s ease;
+}
+
+.btn-shine:hover::after {
+  animation: shine 0.7s ease;
+}
+
+.cta-header.btn-shine::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.35),
+    transparent
+  );
+}
+
+/* Bouton primary glow au hover */
+.btn-primary:hover {
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+/* ========== Cartes véhicules - bordure lumineuse ========== */
+.vehicule-card {
+  position: relative;
+}
+
+.vehicule-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 0;
+  padding: 1px;
+  background: linear-gradient(135deg, transparent, rgba(195, 140, 55, 0.2), transparent, rgba(195, 140, 55, 0.1));
+  background-size: 300% 300%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.vehicule-card:hover::before {
+  opacity: 1;
+  animation: gradientShift 3s ease infinite;
+}
+
+.vehicule-card:hover {
+  box-shadow:
+    0 24px 48px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(195, 140, 55, 0.15),
+    0 20px 40px rgba(195, 140, 55, 0.08);
+}
+
+/* Overlay hover — contenu en fade unique */
+.card-specs-overlay-inner {
+  opacity: 0;
+  transition: opacity 0.25s ease 0.06s;
+}
+
+.vehicule-card:hover .card-specs-overlay-inner {
+  opacity: 1;
+}
+
+/* ========== Nav - underline animé ========== */
+.nav-main a {
+  position: relative;
+}
+
+.nav-main a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--secondary), var(--secondary-hover));
+  transition: width 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.nav-main a:hover::after {
+  width: 100%;
+}
+
+/* ========== Section title - ligne décorative ========== */
+.section-header .section-title-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.section-header .section-title-wrap::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -12px;
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--secondary), transparent);
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.reveal.visible .section-title-wrap::after,
+.section-header.animated .section-title-wrap::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+/* ========== Contact strip - fond animé ========== */
+.contact-strip {
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-strip::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 0%,
+    rgba(195, 140, 55, 0.03) 25%,
+    transparent 50%,
+    rgba(195, 140, 55, 0.05) 75%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: gradientShift 15s ease infinite;
+  pointer-events: none;
+}
+
+.contact-strip-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.contact-methods a {
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.contact-methods a:hover {
+  transform: scale(1.05);
+}
+
+/* ========== Footer - effet subtil ========== */
+.site-footer {
+  position: relative;
+}
+
+.site-footer .logo span {
+  background: linear-gradient(90deg, var(--secondary), var(--secondary-hover));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientText 4s ease infinite;
+}
+
+/* ========== Page hero (liste véhicules) ========== */
+.page-hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.page-hero::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(195, 140, 55, 0.4), transparent);
+  opacity: 0.6;
+}
+
+/* ========== Logo hover ========== */
+.header-inner .logo {
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.header-inner .logo:hover {
+  transform: scale(1.02);
+}
+
+.header-inner .logo:hover span {
+  filter: brightness(1.15);
+}
+
+/* ========== Utilitaires GSAP (éléments cachés au chargement) ========== */
+.gsap-fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.gsap-fade-in {
+  opacity: 0;
+}
+
+.gsap-scale-in {
+  opacity: 0;
+  transform: scale(0.92);
+}
+
+.gsap-reveal {
+  opacity: 0;
+  transform: translateY(40px);
+}

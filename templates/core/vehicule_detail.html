@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ vehicule.titre }}{% endblock %}
+
+{% block content %}
+  <div class="vehicule-detail-hero">
+    <div class="detail-gallery">
+      {% if vehicule.image_principale %}
+        <img src="{{ vehicule.image_principale.url }}" alt="{{ vehicule.titre }}">
+      {% elif vehicule.image_url %}
+        <img src="{{ vehicule.image_url }}" alt="{{ vehicule.titre }}">
+      {% else %}
+        <img src="https://placehold.co/1400x600/1c1c1c/c38c37?text={{ vehicule.titre|urlencode }}" alt="{{ vehicule.titre }}">
+      {% endif %}
+    </div>
+
+    <div class="detail-content">
+      <div>
+        <p class="card-marque">{{ vehicule.get_marque_display }}</p>
+        <h1 class="card-title" style="font-size: 2rem; margin-bottom: 1rem;">{{ vehicule.titre }}</h1>
+        <p class="card-price">{{ vehicule.prix|floatformat:0 }} €</p>
+
+        <div class="detail-specs-grid">
+          <div class="detail-spec">
+            <strong>Année</strong>
+            <span>{{ vehicule.annee }}</span>
+          </div>
+          <div class="detail-spec">
+            <strong>Kilométrage</strong>
+            <span>{{ vehicule.kilometrage|floatformat:0 }} km</span>
+          </div>
+          {% if vehicule.puissance_ch %}
+            <div class="detail-spec">
+              <strong>Puissance</strong>
+              <span>{{ vehicule.puissance_ch }} ch</span>
+            </div>
+          {% endif %}
+          {% if vehicule.moteur %}
+            <div class="detail-spec">
+              <strong>Moteur</strong>
+              <span>{{ vehicule.moteur }}</span>
+            </div>
+          {% endif %}
+        </div>
+
+        {% if vehicule.description %}
+          <div class="detail-description">
+            <h3>Présentation</h3>
+            <p>{{ vehicule.description }}</p>
+          </div>
+        {% endif %}
+      </div>
+
+      <aside class="detail-sidebar">
+        <div class="detail-cta-box">
+          <p class="detail-price">{{ vehicule.prix|floatformat:0 }} €</p>
+          <p>Ce véhicule vous intéresse ? Visite et essai uniquement sur rendez-vous. Pas de vente en ligne.</p>
+          <a href="tel:+33000000000" class="btn btn-primary">Appeler pour un rendez-vous</a>
+          <a href="#contact" class="btn btn-outline" style="margin-top: 0.5rem;">Voir nos coordonnées</a>
+        </div>
+      </aside>
+    </div>
+  </div>
+{% endblock %}
