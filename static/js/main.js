@@ -3,12 +3,6 @@
 
   if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") {
     // Fallback si GSAP non chargé
-    var header = document.querySelector(".site-header");
-    if (header) {
-      window.addEventListener("scroll", function () {
-        header.classList.toggle("scrolled", window.scrollY > 60);
-      }, { passive: true });
-    }
     var revealEls = document.querySelectorAll(".reveal");
     if (revealEls.length && "IntersectionObserver" in window) {
       var observer = new IntersectionObserver(function (entries) {
@@ -22,17 +16,6 @@
   }
 
   gsap.registerPlugin(ScrollTrigger);
-
-  // ----- Header scroll
-  var header = document.querySelector(".site-header");
-  if (header) {
-    ScrollTrigger.create({
-      trigger: "body",
-      start: "60px top",
-      onEnter: function () { header.classList.add("scrolled"); },
-      onLeaveBack: function () { header.classList.remove("scrolled"); },
-    });
-  }
 
   // ----- Hero (page d'accueil) — une ligne + CTA type Moteur & Sens
   var heroContent = document.querySelector(".hero-content");

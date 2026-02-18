@@ -5,6 +5,12 @@
 
 {% block content %}
   <section class="hero">
+    <div class="hero-video-wrap" aria-hidden="true">
+      <video class="hero-video" autoplay muted loop playsinline>
+        <source src="{% static 'videos/WM.mp4' %}" type="video/mp4">
+      </video>
+    </div>
+    <div class="hero-video-overlay" aria-hidden="true"></div>
     <div class="hero-bg"></div>
     <div class="hero-bg-animated" aria-hidden="true"></div>
     <div class="hero-bg-glow" aria-hidden="true"></div>

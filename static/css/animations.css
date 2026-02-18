@@ -84,8 +84,11 @@
 /* ========== Hero background animé ========== */
 .hero-bg-animated {
   position: absolute;
-  inset: 0;
-  z-index: 0;
+  top: var(--header-height, 72px);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
   background: linear-gradient(
     135deg,
     #0F3D2E 0%,
@@ -100,10 +103,10 @@
 
 .hero-bg-glow {
   position: absolute;
+  top: calc(var(--header-height, 72px) + 15vh);
+  left: 10%;
   width: 80%;
   height: 60%;
-  top: 30%;
-  left: 10%;
   background: radial-gradient(
     ellipse at center,
     rgba(191, 195, 201, 0.08) 0%,
@@ -111,7 +114,7 @@
     transparent 70%
   );
   pointer-events: none;
-  z-index: 0;
+  z-index: -1;
   animation: float 8s ease-in-out infinite;
 }
 
