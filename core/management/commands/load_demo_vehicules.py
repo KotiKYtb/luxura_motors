@@ -19,7 +19,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         data = [
             {
-                "titre": "Ferrari Roma",
+                "titre": "Roma",
                 "marque": "ferrari",
                 "modele": "Roma",
                 "annee": 2022,
@@ -32,7 +32,7 @@ class Command(BaseCommand):
                 "ordre_affichage": 10,
             },
             {
-                "titre": "Lamborghini Huracán STO",
+                "titre": "Huracán STO",
                 "marque": "lamborghini",
                 "modele": "Huracán STO",
                 "annee": 2021,
@@ -45,7 +45,7 @@ class Command(BaseCommand):
                 "ordre_affichage": 9,
             },
             {
-                "titre": "Porsche 718 Cayman GT4 RS",
+                "titre": "718 Cayman GT4 RS",
                 "marque": "porsche",
                 "modele": "718 Cayman GT4 RS",
                 "annee": 2022,
@@ -58,7 +58,7 @@ class Command(BaseCommand):
                 "ordre_affichage": 8,
             },
             {
-                "titre": "McLaren 720S Spider",
+                "titre": "720S Spider",
                 "marque": "mclaren",
                 "modele": "720S Spider",
                 "annee": 2019,
@@ -71,7 +71,7 @@ class Command(BaseCommand):
                 "ordre_affichage": 7,
             },
             {
-                "titre": "Ferrari 812 Superfast",
+                "titre": "812 Superfast",
                 "marque": "ferrari",
                 "modele": "812 Superfast",
                 "annee": 2019,
@@ -84,7 +84,7 @@ class Command(BaseCommand):
                 "ordre_affichage": 6,
             },
             {
-                "titre": "Porsche 911 Turbo Cabriolet",
+                "titre": "911 Turbo Cabriolet",
                 "marque": "porsche",
                 "modele": "911 Type 991 Turbo Cabriolet",
                 "annee": 2016,
