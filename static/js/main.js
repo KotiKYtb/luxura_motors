@@ -217,6 +217,33 @@
     if (e.key === "Escape" && body.classList.contains("nav-open")) closeNav();
   });
 
+  // ----- Retour en haut (footer) — défilement super smooth (décélération progressive)
+  var footerScrollTop = document.querySelector(".footer-scroll-top");
+  if (footerScrollTop) {
+    footerScrollTop.addEventListener("click", function (e) {
+      e.preventDefault();
+      var start = window.pageYOffset || document.documentElement.scrollTop;
+      var startTime = null;
+      var duration = 1000;
+
+      // easeOutExpo : la fin s’étire, le scroll "continue un peu" avant de s’arrêter
+      function easeOutExpo(t) {
+        return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+      }
+
+      function step(now) {
+        if (!startTime) startTime = now;
+        var elapsed = now - startTime;
+        var progress = Math.min(elapsed / duration, 1);
+        var eased = easeOutExpo(progress);
+        window.scrollTo(0, start * (1 - eased));
+        if (progress < 1) requestAnimationFrame(step);
+      }
+
+      requestAnimationFrame(step);
+    });
+  }
+
   // ----- Dropdown Marques (page À vendre) — checkboxes personnalisé
   var marqueDropdown = document.getElementById("marque-dropdown");
   if (marqueDropdown) {
@@ -327,10 +354,64 @@
       applyFiltersFromForm();
     });
 
-    var numberInputs = filtersForm.querySelectorAll('input[name="annee_min"], input[name="annee_max"], input[name="prix_min"], input[name="prix_max"], input[name="km_max"]');
+    var numberInputs = filtersForm.querySelectorAll('input[name="annee_min"], input[name="annee_max"]');
     numberInputs.forEach(function (input) {
       input.addEventListener("input", scheduleApplyFilters);
     });
+
+    function formatSliderValue(val) {
+      return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, "\u202f");
+    }
+
+    function initDoubleSlider(container) {
+      var minInput = container.querySelector(".double-slider-input-min");
+      var maxInput = container.querySelector(".double-slider-input-max");
+      var fill = container.querySelector(".double-slider-fill");
+      var minLabel = container.querySelector(".double-slider-min-label");
+      var maxLabel = container.querySelector(".double-slider-max-label");
+      var rangeMin = parseInt(container.getAttribute("data-min"), 10) || 0;
+      var rangeMax = parseInt(container.getAttribute("data-max"), 10) || 100;
+      var unit = container.getAttribute("data-unit") || "";
+
+      function updateFillAndLabels() {
+        var minVal = parseInt(minInput.value, 10);
+        var maxVal = parseInt(maxInput.value, 10);
+        if (minVal > maxVal) {
+          if (minInput === document.activeElement) {
+            minVal = maxVal;
+            minInput.value = maxVal;
+          } else {
+            maxVal = minVal;
+            maxInput.value = minVal;
+          }
+        }
+        var range = rangeMax - rangeMin;
+        var pctMin = range ? ((minVal - rangeMin) / range) * 100 : 0;
+        var pctMax = range ? ((maxVal - rangeMin) / range) * 100 : 100;
+        fill.style.left = pctMin + "%";
+        fill.style.width = (pctMax - pctMin) + "%";
+        if (minLabel) minLabel.textContent = formatSliderValue(minVal) + unit;
+        if (maxLabel) maxLabel.textContent = formatSliderValue(maxVal) + unit;
+      }
+
+      minInput.addEventListener("input", function () {
+        var maxVal = parseInt(maxInput.value, 10);
+        if (parseInt(minInput.value, 10) > maxVal) minInput.value = maxVal;
+        updateFillAndLabels();
+        scheduleApplyFilters();
+      });
+      maxInput.addEventListener("input", function () {
+        var minVal = parseInt(minInput.value, 10);
+        if (parseInt(maxInput.value, 10) < minVal) maxInput.value = minVal;
+        updateFillAndLabels();
+        scheduleApplyFilters();
+      });
+      updateFillAndLabels();
+      return updateFillAndLabels;
+    }
+
+    var updatePrixSlider = document.getElementById("double-slider-prix") ? initDoubleSlider(document.getElementById("double-slider-prix")) : null;
+    var updateKmSlider = document.getElementById("double-slider-km") ? initDoubleSlider(document.getElementById("double-slider-km")) : null;
 
     var btnApply = document.getElementById("btn-filters-apply");
     if (btnApply) btnApply.addEventListener("click", applyFiltersFromForm);
@@ -340,6 +421,16 @@
       resetBtn.addEventListener("click", function (e) {
         e.preventDefault();
         filtersForm.reset();
+        var prixMin = filtersForm.querySelector('input[name="prix_min"]');
+        var prixMax = filtersForm.querySelector('input[name="prix_max"]');
+        var kmMin = filtersForm.querySelector('input[name="km_min"]');
+        var kmMax = filtersForm.querySelector('input[name="km_max"]');
+        if (prixMin) prixMin.value = 0;
+        if (prixMax) prixMax.value = 2000000;
+        if (kmMin) kmMin.value = 0;
+        if (kmMax) kmMax.value = 500000;
+        if (updatePrixSlider) updatePrixSlider();
+        if (updateKmSlider) updateKmSlider();
         var marqueValueEl = document.getElementById("marque-dropdown-value");
         if (marqueValueEl) marqueValueEl.textContent = "Toutes les marques";
         var triValueEl = document.getElementById("tri-value");
@@ -412,10 +503,16 @@
         });
         marqueValueEl.textContent = labels.length ? labels.join(", ") : "Toutes les marques";
       }
-      ["annee_min", "annee_max", "prix_min", "prix_max", "km_max", "tri"].forEach(function (name) {
+      ["annee_min", "annee_max", "prix_min", "prix_max", "km_min", "km_max", "tri"].forEach(function (name) {
         var el = filtersForm.querySelector('[name="' + name + '"]');
-        if (el) el.value = params.get(name) || "";
+        if (!el) return;
+        var param = params.get(name);
+        if (name === "prix_min" || name === "prix_max") el.value = param || (name === "prix_min" ? "0" : "2000000");
+        else if (name === "km_min" || name === "km_max") el.value = param || (name === "km_min" ? "0" : "500000");
+        else el.value = param || "";
       });
+      if (updatePrixSlider) updatePrixSlider();
+      if (updateKmSlider) updateKmSlider();
       syncTriDisplay(params.get("tri") || "recent");
       params.set("ajax", "1");
       applyFilters(params.toString());

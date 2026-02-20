@@ -1544,6 +1544,132 @@ body.nav-open .nav-mobile {
   font-size: 0.8rem;
 }
 
+/* ----- Double slider (Prix & Kilométrage) ----- */
+.filter-group-double-slider {
+  min-width: 200px;
+}
+
+.double-slider {
+  position: relative;
+  width: 100%;
+  padding-top: 0.5rem;
+}
+
+.double-slider-track {
+  position: absolute;
+  top: 0.75rem;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}
+
+.double-slider-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--secondary);
+  pointer-events: none;
+  transition: left 0.1s ease, width 0.1s ease;
+}
+
+.double-slider-input {
+  position: relative;
+  width: 100%;
+  height: 28px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  pointer-events: none;
+}
+
+.double-slider-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--secondary);
+  border: 2px solid var(--primary-light);
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.double-slider-input::-webkit-slider-thumb:hover {
+  transform: scale(1.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.double-slider-input::-webkit-slider-runnable-track {
+  height: 6px;
+  background: transparent;
+}
+
+.double-slider-input::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--secondary);
+  border: 2px solid var(--primary-light);
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.double-slider-input::-moz-range-thumb:hover {
+  transform: scale(1.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.double-slider-input::-moz-range-track {
+  height: 6px;
+  background: transparent;
+}
+
+.double-slider-input:focus {
+  outline: none;
+}
+
+.double-slider-input-min {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.double-slider-input-max {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+.double-slider-values {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.double-slider-min-label,
+.double-slider-max-label {
+  font-variant-numeric: tabular-nums;
+}
+
+.double-slider-sep {
+  color: var(--text-subtle);
+  font-size: 0.8rem;
+}
+
 /* Dropdown personnalisé Marques (checkboxes dans le panel) */
 .filter-dropdown {
   position: relative;

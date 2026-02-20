@@ -18,7 +18,7 @@ from .forms import (
 
 def home(request):
     """Landing page avec véhicules en vedette."""
-    vedettes = Vehicule.objects.filter(en_vedette=True).prefetch_related("options")[:6]
+    vedettes = Vehicule.objects.filter(en_vedette=True).prefetch_related("options")[:3]
     return render(request, "core/home.html", {"vedettes": vedettes})
 
 
@@ -32,6 +32,7 @@ def vehicule_list(request):
     annee_max = request.GET.get("annee_max", "").strip()
     prix_min = request.GET.get("prix_min", "").strip()
     prix_max = request.GET.get("prix_max", "").strip()
+    km_min = request.GET.get("km_min", "").strip()
     km_max = request.GET.get("km_max", "").strip()
     tri = request.GET.get("tri", "recent")
 
@@ -64,6 +65,10 @@ def vehicule_list(request):
         val = _parse_int(prix_max)
         if val is not None:
             qs = qs.filter(prix__lte=val)
+    if km_min:
+        val = _parse_int(km_min)
+        if val is not None:
+            qs = qs.filter(kilometrage__gte=val)
     if km_max:
         val = _parse_int(km_max)
         if val is not None:
@@ -91,6 +96,7 @@ def vehicule_list(request):
             "annee_max": annee_max,
             "prix_min": prix_min,
             "prix_max": prix_max,
+            "km_min": km_min,
             "km_max": km_max,
             "tri": tri,
         },

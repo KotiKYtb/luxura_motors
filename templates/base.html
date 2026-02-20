@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="{% static 'css/animations.css' %}">
   {% block extra_css %}{% endblock %}
 </head>
-<body class="{% block body_class %}{% endblock %}">
+<body class="{% block body_class %}{% endblock %}" id="top">
   <header class="site-header" id="header">
     <div class="header-inner">
       <a href="{% url 'home' %}" class="logo">
@@ -119,7 +119,7 @@
     </div>
     <div class="footer-bottom">
       <p class="footer-copyright">&copy; {% now "Y" %} luxora Motors. Tous droits réservés.</p>
-      <a href="#header" class="footer-scroll-top" aria-label="Retour en haut de page">
+      <a href="#top" class="footer-scroll-top" aria-label="Retour en haut de page">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
       </a>
     </div>
